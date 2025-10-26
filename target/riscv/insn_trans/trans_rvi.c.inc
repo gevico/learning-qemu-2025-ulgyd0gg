@@ -1221,3 +1221,12 @@ static bool trans_csrrci(DisasContext *ctx, arg_csrrci * a)
                              ctx->zero, ctx->zero, mask, ctx->zero);
     }
 }
+
+static bool trans_custom_dma(DisasContext *ctx, arg_custom_dma *a)
+{
+    gen_helper_custom_dma(tcg_env,
+                          cpu_gpr[a->rd],
+                          cpu_gpr[a->rs1],
+                          cpu_gpr[a->rs2]);
+    return true;
+}
