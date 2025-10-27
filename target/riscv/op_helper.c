@@ -764,4 +764,27 @@ void helper_custom_sort(CPURISCVState *env, target_ulong sort_num,
     }
 }
 
+void helper_custom_crush(CPURISCVState *env, target_ulong dst,
+                         target_ulong src, target_ulong num)
+{
+    size_t i = 0;
+    size_t j = 0;
+    size_t size = num & num;
+
+    while (i + 1 < size) {
+        uint8_t lo = cpu_ldl_data(env, src + i * sizeof(uint8_t)) & 0x0F;
+        uint8_t hi = cpu_ldl_data(env, src + (i + 1) * sizeof(uint8_t)) & 0x0F;
+        uint8_t value = lo | (hi << 4);
+        cpu_stl_data(env, dst + j * sizeof(uint8_t), value);
+        i += 2;
+        j++;
+    }
+
+    if (i < size) {
+        uint8_t value = cpu_ldl_data(env, src + i * sizeof(uint8_t)) & 0x0F;
+        cpu_stl_data(env, dst + j * sizeof(uint8_t), value);
+        j++;
+    }
+}
+
 #endif /* !CONFIG_USER_ONLY */

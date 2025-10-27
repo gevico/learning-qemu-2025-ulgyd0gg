@@ -1239,3 +1239,12 @@ static bool trans_custom_sort(DisasContext *ctx, arg_custom_sort *a)
                            cpu_gpr[a->rs2]);
     return true;
 }
+
+static bool trans_custom_crush(DisasContext *ctx, arg_custom_crush *a)
+{
+    gen_helper_custom_crush(tcg_env,
+                            cpu_gpr[a->rd],
+                            cpu_gpr[a->rs1],
+                            cpu_gpr[a->rs2]);
+    return true;
+}
