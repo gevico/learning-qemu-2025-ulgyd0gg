@@ -1230,3 +1230,12 @@ static bool trans_custom_dma(DisasContext *ctx, arg_custom_dma *a)
                           cpu_gpr[a->rs2]);
     return true;
 }
+
+static bool trans_custom_sort(DisasContext *ctx, arg_custom_sort *a)
+{
+    gen_helper_custom_sort(tcg_env,
+                           cpu_gpr[a->rd],
+                           cpu_gpr[a->rs1],
+                           cpu_gpr[a->rs2]);
+    return true;
+}
